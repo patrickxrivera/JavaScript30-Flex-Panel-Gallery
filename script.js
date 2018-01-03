@@ -5,15 +5,25 @@ function getAllElements(element) {
   return Array.from(listOfElements);
 }
 
-panels.forEach(panel =>
-  addClickEvent(panel)
-);
+panels.forEach(panel => {
+  addClickEvent(panel);
+  addTransitionEndEvent(panel);
+});
 
 function addClickEvent(element) {
-  element.addEventListener('click', toggleTransition);
+  element.addEventListener('click', toggleOpen);
 }
 
-function toggleTransition() {
+function addTransitionEndEvent(element) {
+  element.addEventListener('transitionend', toggleActive);
+}
+
+function toggleOpen() {
   this.classList.toggle('open');
-  this.classList.toggle('open-active');
+}
+
+function toggleActive(e) {
+  if (e.propertyName.includes('flex')) {
+    this.classList.toggle('open-active');
+  }
 }
